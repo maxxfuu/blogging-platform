@@ -3,4 +3,35 @@ Restful API Endpoint File
 - Handles different HTTP method 
 
 Database Connection File 
-- Database Connection File is a file to maange the connection between your backend to the database. 
+- Database Connection File is a file to maange the connection between your backend to the database.
+_ However, to connect to a database you must first create the database. 
+
+    Instructions 
+    First go to the terminal and log into PostgreSQL using the psql CLI tool
+    ```psql -U postgres``` 
+
+    then create the database 
+    ```CREATE DATABASE <name of database>```
+
+    Then switch to the correct database that you are working on. 
+    ```\c database_name``` 
+
+    After switching into the database, run the file database.sql to create the table 
+    ```psql -U postgres -d blogging_platform -f database.sql```  
+
+        -U postgres: Specifies the username (replace with your PostgreSQL username).
+        -d blogging_platform: Specifies the database to apply the script to.
+        -f database.sql: Specifies the SQL file to execute.
+
+    If successful, you'll see confirmation that the articles table has been created.
+    Log in to the database again if you're not already connected:
+    ```psql -U postgres -d blogging_platform ```  
+
+   Check if the articles table exists 
+    \dt 
+
+    Inspect the table structure 
+    \d articles 
+
+    
+
