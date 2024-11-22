@@ -1,0 +1,6 @@
+Restful API Endpoint File 
+- File to handle API requests. Defines how the clients interacts with the backend and interact with the databas. 
+- Handles different HTTP method 
+
+Database Connection File 
+- Database Connection File is a file to maange the connection between your backend to the database. 
