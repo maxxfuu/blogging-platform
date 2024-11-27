@@ -44,10 +44,29 @@ func postArticle(context *gin.Context) {
 
 // update an existing article
 func putArticle(context *gin.Context) {
+	id := context.Param("id")
+	var updatedArticle models.Article
+	if err := context.ShouldBindBodyWithJSON(&updatedArticle); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid JSON data"})
+		return
+	}
+	query := `UPDATE articles SET title=$1, content=$2, author=$3 WHERE id=$4`
+	_, err := database.DB.Exec(query, updatedArticle.Title, updatedArticle.Content, updatedArticle.Author, id)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update article"})
+		return
+	}
+	context.JSON(http.StatusOK, gin.H{"message": "Article updated successfully"})
 
 }
 
 // delete article by id
 func deleteArticle(context *gin.Context) {
-
+	id := context.Param("id")
+	_, err := database.DB.Exec("DELETE FROM articles WHERE id=$1", id)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete article"})
+		return
+	}
+	context.JSON(http.StatusOK, gin.H{"message": "Article deleted successfully"})
 }
