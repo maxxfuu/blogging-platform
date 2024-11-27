@@ -5,8 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//Write Parameters struct which represents the parameters our API endpoint will take
-
+// Write Parameters struct which represents the parameters our API endpoint will take
 func SetupRouter() *gin.Engine {
 	router := gin.Default()
 

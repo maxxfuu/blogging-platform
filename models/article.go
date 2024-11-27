@@ -1,4 +1,4 @@
-package main
+package models
 
 // Define a new custom type (Explicit Type Declaration), type name, struct is the type.
 type Article struct {

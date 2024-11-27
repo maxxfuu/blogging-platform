@@ -2,15 +2,15 @@
 package database
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
 	"os"
 
+	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq" // PostgreSQL driver
 )
 
-var DB *sql.DB
+var DB *sqlx.DB
 
 func InitDB() {
 	// Capture connection properties.
@@ -24,7 +24,7 @@ func InitDB() {
 	)
 
 	var err error
-	DB, err = sql.Open("postgres", connString)
+	DB, err = sqlx.Open("postgres", connString)
 	if err != nil {
 		log.Fatal("Failed to connect to database: ", err)
 	}
