@@ -11,10 +11,16 @@ func SetupRouter() *gin.Engine {
 
 	// Define router and their handles. Function definitions are defined in /api/api.go
 	// router.<HTTP_METHOD>(<ROUTE_PATH>, <HANDLER_FUNCTION>)
-	router.GET("/articles", getArticle)
-	router.POST("/article", postArticle)
-	router.PUT("/article", putArticle)
-	router.DELETE("/article", deleteArticle)
+	// URL PATH
+
+	// Collection endpoint
+	router.GET("/articles", getArticles)
+
+	// Single item endpoint
+	router.GET("/articles/:id", getArticle)
+	router.POST("/articles", postArticle)
+	router.PUT("/articles/:id", putArticle)
+	router.DELETE("/articles/:id", deleteArticle)
 
 	return router
 }

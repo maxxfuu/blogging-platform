@@ -9,7 +9,44 @@ import (
 	"blogging-platform/models"
 )
 
-// fetch all articles
+// Handles get request for all articles
+func getArticles(context *gin.Context) {
+	var articles []models.Article
+
+	err := database.DB.Select(&articles, "SELECT * FROM articles")
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{
+			"status":  "error",
+			"message": "Failed to fetch articles",
+			"err":     err,
+		})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{
+		"status":   "success",
+		"articles": articles,
+	})
+}
+
+// // Handles post request for a new article
+// func postArticles(context *gin.Context) {
+// 	var newArticles models.Article
+// 	if err := context.ShouldBindJSON(&newArticles); err != nil {
+// 		context.JSON(http.StatusBadRequest, gin.H{
+// 			"status":  "error",
+// 			"message": "Invalid JSON data",
+// 		})
+// 		return
+// 	}
+
+// 	context.JSON(http.StatusCreated, gin.H{
+// 		"status":  "success",
+// 		"article": newArticles,
+// 	})
+// }
+
+// Handles get request for a single article
 func getArticle(context *gin.Context) {
 	var articles []models.Article
 
@@ -29,14 +66,14 @@ func postArticle(context *gin.Context) {
 
 	err1 := context.ShouldBindJSON(&newArticle)
 	if err1 != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": "Server unable to process a request due to client error"})
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid JSON data"})
 		return
 	}
 
-	query := `INSERT INTO articles (title, content, author, created_at) VALUES ($1, $2, $3, NOW()) RETURNING id`
+	query := `INSERT INTO articles (title, content, author, created_time) VALUES ($1, $2, $3, NOW()) RETURNING id`
 	err2 := database.DB.QueryRow(query, newArticle.Title, newArticle.Content, newArticle.Author).Scan(&newArticle.ID)
 	if err2 != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create article"})
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create article", "details": err2.Error()})
 		return
 	}
 	context.JSON(http.StatusCreated, newArticle)
