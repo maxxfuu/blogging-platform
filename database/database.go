@@ -18,7 +18,7 @@ func InitDB() {
 		"postgres",
 		"",
 		"localhost",
-		"1111",
+		"5432",
 		"postgres",
 	)
 
