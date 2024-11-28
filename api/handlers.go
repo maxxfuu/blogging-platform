@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -70,9 +71,10 @@ func postArticle(context *gin.Context) {
 		return
 	}
 
-	query := `INSERT INTO articles (title, content, author, created_time) VALUES ($1, $2, $3, NOW()) RETURNING id`
+	query := `INSERT INTO articles (title, content, author) VALUES ($1, $2, $3) RETURNING id`
 	err2 := database.DB.QueryRow(query, newArticle.Title, newArticle.Content, newArticle.Author).Scan(&newArticle.ID)
 	if err2 != nil {
+		fmt.Println("Error creating article:", err2)
 		context.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create article", "details": err2.Error()})
 		return
 	}
