@@ -4,7 +4,6 @@ package database
 import (
 	"fmt"
 	"log"
-	"os"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq" // PostgreSQL driver
@@ -16,11 +15,11 @@ func InitDB() {
 	// Capture connection properties.
 	var connString string = fmt.Sprintf(
 		"postgres://%s:%s@%s:%s/%s?sslmode=disable",
-		os.Getenv("DBUSER"),
-		os.Getenv("DBPASS"),
-		os.Getenv("DBHOST"),
-		os.Getenv("DBPORT"),
-		os.Getenv("DBNAME"),
+		"postgres",
+		"",
+		"localhost",
+		"1111",
+		"postgres",
 	)
 
 	var err error
